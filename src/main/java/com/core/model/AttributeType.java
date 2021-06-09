@@ -9,7 +9,8 @@ public class AttributeType {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long attribute_type_id;
+    @Column(name = "attribute_type_id")
+    private long attributeTypeId;
 
     @Column(name = "name")
     private String name;
@@ -20,12 +21,12 @@ public class AttributeType {
     @OneToMany(mappedBy = "attributeType")
     private List<Attribute> attributes;
 
-    public long getAttribute_type_id() {
-        return attribute_type_id;
+    public long getAttributeTypeId() {
+        return attributeTypeId;
     }
 
-    public void setAttribute_type_id(long attribute_type_id) {
-        this.attribute_type_id = attribute_type_id;
+    public void setAttributeTypeId(long attribute_type_id) {
+        this.attributeTypeId = attribute_type_id;
     }
 
     public String getName() {

@@ -38,4 +38,9 @@ public class AttributeServiceImpl implements AttributeService {
     public List<Attribute> findAll() {
         return attributeRepository.findAll();
     }
+
+    @Override
+    public List<Attribute> getDefaultAttributesByObjectTypeId(long objectTypeId) {
+        return attributeRepository.getDefaultAttributesByObjectTypeId(objectTypeId);
+    }
 }

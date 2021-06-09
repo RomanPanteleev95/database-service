@@ -11,4 +11,5 @@ public interface AttributeService {
     void delete(Attribute attribute);
     Attribute findById(long id);
     List<Attribute> findAll();
+    List<Attribute> getDefaultAttributesByObjectTypeId(long objectTypeId);
 }

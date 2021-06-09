@@ -1,5 +1,6 @@
 package com.core.model;
 
+import com.core.service.AttributeService;
 import com.core.service.MutableDataObjectService;
 import com.core.util.ApplicationContextProvider;
 import org.springframework.context.ApplicationContext;
@@ -105,7 +106,7 @@ public class MutableDataObject {
             mutableDataObjectService.setStringValue(this.objectId, attrId, (String) value);
         }
         if (value instanceof Date) {
-            
+            mutableDataObjectService.setDateValue(this.objectId, attrId, (Date) value);
         }
     }
 
@@ -113,10 +114,22 @@ public class MutableDataObject {
         Object value = params.get(attrId);
         if (value == null) {
             MutableDataObjectService mutableDataObjectService = applicationContext.getBean(MutableDataObjectService.class);
-            value = mutableDataObjectService.getValue(this.objectId, attrId);
-            params.put(attrId, value);
+            AttributeService attributeService = applicationContext.getBean(AttributeService.class);
+            Attribute attribute = attributeService.findById(attrId);
+            if (attribute.getAttributeType().getAttributeTypeId() == 3) {
+                value = mutableDataObjectService.getDateValue(this.objectId, attrId);
+            } else if(attribute.getAttributeType().getAttributeTypeId() == 4) {
+                value = mutableDataObjectService.getListValue(this.objectId, attrId);
+            } else {
+                value = mutableDataObjectService.getStringValue(this.objectId, attrId);
+            }
         }
+        params.put(attrId, value);
         return value;
+    }
+
+    public Map<Long, Object> getParams() {
+        return params;
     }
 
     @Override

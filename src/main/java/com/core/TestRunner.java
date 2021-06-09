@@ -13,6 +13,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -23,15 +24,17 @@ public class TestRunner {
     }
 
     public void run() throws InterruptedException {
-//        ApplicationContext applicationContext = SpringApplication.run(TestRunner.class);
-        mutableDataObjectTestRun();
+        ApplicationContext applicationContext = SpringApplication.run(TestRunner.class);
+//        mutableDataObjectTestRun();
+//        attributeController();
     }
 
     public void mutableDataObjectTestRun() throws InterruptedException {
         ApplicationContext applicationContext = SpringApplication.run(TestRunner.class);
         MutableDataObjectService mutableDataObjectService = applicationContext.getBean(MutableDataObjectService.class);
         MutableDataObject object = mutableDataObjectService.findById(1L);
-        System.out.println((String) object.getValue(10));
+        System.out.println(object.getValue(5));
+        System.out.println(object.getValue(2));
 
     }
 
@@ -53,15 +56,8 @@ public class TestRunner {
     public void attributeController() {
         ApplicationContext applicationContext = SpringApplication.run(TestRunner.class);
         AttributeService attributeService = applicationContext.getBean(AttributeService.class);
-        Attribute attribute = new Attribute();
-        attribute.setName("Test");
-        attribute.setDescription("Test description");
-        attribute.setDefaultValue("Def val");
-
-        AttributeTypeService attributeTypeService = applicationContext.getBean(AttributeTypeService.class);
-        AttributeType attributeType = attributeTypeService.findById(1);
-        attribute.setAttributeType(attributeType);
-        attributeService.create(attribute);
+        List<Attribute> defaultAttributes = attributeService.getDefaultAttributesByObjectTypeId(1);
+        System.out.println(defaultAttributes.get(0).getDefaultValue());
     }
 
 

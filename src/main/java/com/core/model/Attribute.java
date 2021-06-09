@@ -4,6 +4,21 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "attributes")
+@org.hibernate.annotations.NamedNativeQuery(
+        name = "get_default_attrs",
+        query = "with recursive tmp as (\n" +
+                "    select object_type_id, parent_id from object_types where object_type_id = :objectTypeId\n" +
+                "    union all\n" +
+                "    select ot.object_type_id, t.parent_id from tmp t\n" +
+                "    inner join object_types ot on ot.parent_id = t.object_type_id\n" +
+                "\n" +
+                ") select * from\n" +
+                "    attributes attr,\n" +
+                "    tmp t\n" +
+                "where t.object_type_id = attr.object_type_id " +
+                "and attr.default_value is not null",
+        resultClass = Attribute.class
+)
 public class Attribute {
 
     @Id

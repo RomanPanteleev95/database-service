@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -16,8 +17,8 @@ public class MutableDataObjectServiceImpl implements MutableDataObjectService {
     MutableDataObjectRepository mutableDataObjectRepository;
 
     @Override
-    public void create(MutableDataObject mutableDataObject) {
-        mutableDataObjectRepository.saveAndFlush(mutableDataObject);
+    public MutableDataObject create(MutableDataObject mutableDataObject) {
+        return mutableDataObjectRepository.saveAndFlush(mutableDataObject);
     }
 
     @Override
@@ -58,7 +59,23 @@ public class MutableDataObjectServiceImpl implements MutableDataObjectService {
 
     @Override
     @Transactional
-    public String getValue(long objectId, long attrId) {
-        return mutableDataObjectRepository.getValue(objectId, attrId);
+    public void setDateValue(long objectId, long attrId, Date value) {
+        mutableDataObjectRepository.setDateValue(objectId, attrId, value);
+    }
+
+    @Override
+    @Transactional
+    public String getStringValue(long objectId, long attrId) {
+        return mutableDataObjectRepository.getStringValue(objectId, attrId);
+    }
+
+    @Override
+    public Date getDateValue(long objectId, long attrId) {
+        return mutableDataObjectRepository.getDateValue(objectId, attrId);
+    }
+
+    @Override
+    public Long getListValue(long objectId, long attrId) {
+        return mutableDataObjectRepository.getListValue(objectId, attrId);
     }
 }
