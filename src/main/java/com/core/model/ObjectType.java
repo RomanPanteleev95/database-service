@@ -20,6 +20,7 @@ public class ObjectType {
     @JoinColumn(name = "parent_id")
     private ObjectType parent;
 
+
     @JsonIgnore
     @OneToMany(mappedBy = "parent", fetch = FetchType.LAZY)
     private Set<ObjectType> children = new HashSet<>();
