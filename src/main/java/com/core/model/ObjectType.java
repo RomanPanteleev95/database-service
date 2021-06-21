@@ -15,6 +15,7 @@ public class ObjectType {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long objectTypeId;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "parent_id")
     private ObjectType parent;
